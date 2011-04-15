@@ -18,8 +18,8 @@ CHANGELOG			|operator-sequence-changelog|
 ==============================================================================
 INTRODUCTION				*operator-sequence-introduction*
 
-*operator-sequence* is a Vim plugin to provide a way to define a operator that
-do two or more operators.
+*operator-sequence* is a Vim plugin to provide a way to define an operator that
+does two or more operators.
 
 Requirements:
 - Vim 7.3 or later
