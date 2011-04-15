@@ -1,0 +1,83 @@
+*operator-sequence.txt*	Operator to do two or more operators.
+
+Version: 0.1.0
+Author : thinca <thinca+vim@gmail.com>
+License: Creative Commons Attribution 2.1 Japan License
+         <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
+
+==============================================================================
+CONTENTS					*operator-sequence-contents*
+
+INTRODUCTION			|operator-sequence-introduction|
+INTERFACE			|operator-sequence-interface|
+  FUNCTIONS			  |operator-sequence-functions|
+ISSUES				|operator-sequence-issues|
+CHANGELOG			|operator-sequence-changelog|
+
+
+==============================================================================
+INTRODUCTION				*operator-sequence-introduction*
+
+*operator-sequence* is a Vim plugin to provide a way to define a operator that
+do two or more operators.
+
+Requirements:
+- Vim 7.3 or later
+
+Latest version:
+https://github.com/thinca/vim-operator-sequence
+
+
+
+==============================================================================
+INTERFACE					*operator-sequence-interface*
+
+------------------------------------------------------------------------------
+FUNCTIONS					*operator-sequence-functions*
+
+operator#sequence#map({string}, ...)		*operator#sequence#map()*
+	A function to define a new operator.
+	{string}s are key sequences of operator.  These are always remapped.
+	If {string} is wrapped by |List|, it is treated as normal key
+	sequence, not an operator.
+	This is used by mapping with <expr> as follows.
+>
+	noremap <expr> <Leader>? operator#sequence#map('g?', 'y', ['u'])
+<
+	This example does yank the text that encoded by |rot13|.
+	Undo the encoded text by the "['u']" of last.
+
+	An other example, uses with |operator-camelize|(vimscript#3046):
+>
+	noremap <expr> <Leader>U operator#sequence#map(
+	                        \"\<Plug>(operator-decamelize)", 'gU')
+<
+	This does decamelize(SomeVar -> some_var), and makes it uppercase
+	(some_var -> SOME_VAR).
+
+
+
+==============================================================================
+ISSUES						*operator-sequence-issues*
+
+- The marks |'<| and |'>| are updated.
+  This is the issue of Vim.  See |omap-info|.
+
+- An operator that requests the input like |!| doesn't work well.
+  - I think this can avoid as foldings: >
+	noremap <expr> <Leader>! operator#sequence#map(
+	               \'!', [input('!') . "\<CR>"], 'y', 'u')
+<   This example does yank the filtered text.
+    But, this sometimes make SEGV.  The reason is unknown.
+
+
+
+==============================================================================
+CHANGELOG					*operator-sequence-changelog*
+
+0.1.0	2011-04-15
+	- Initial version.
+
+
+==============================================================================
+vim:tw=78:fo=tcq2mM:ts=8:ft=help:norl
