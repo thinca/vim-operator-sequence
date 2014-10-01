@@ -40,7 +40,10 @@ function! operator#sequence#do(type)
     let seq .= type(op) == type([]) ? join(op, '') : prefix . op . motion
     unlet op
   endfor
+  let save_selection = &selection
+  set selection=inclusive
   execute 'normal' seq
+  let &selection = save_selection
 endfunction
 
 let &cpo = s:save_cpo
