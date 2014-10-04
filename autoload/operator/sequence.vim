@@ -42,8 +42,11 @@ function! operator#sequence#do(type)
   endfor
   let save_selection = &selection
   set selection=inclusive
-  execute 'normal' seq
-  let &selection = save_selection
+  try
+    execute 'normal' seq
+  finally
+    let &selection = save_selection
+  endtry
 endfunction
 
 let &cpo = s:save_cpo
